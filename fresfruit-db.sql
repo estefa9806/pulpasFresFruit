@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `ff_productopedido` (
     `id_productopedido` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `id_producto` INT NOT NULL,
     `id_pedido` INT NOT NULL,
+    `cantidad` INT NOT NULL,
     CONSTRAINT FOREIGN KEY(`id_producto`) REFERENCES ff_productos(`id_producto`),
     CONSTRAINT FOREIGN KEY(`id_pedido`) REFERENCES ff_pedidos(`id_pedido`)
 );

@@ -49,6 +49,13 @@ CREATE TABLE IF NOT EXISTS `ff_productos` (
     `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS `ff_usuarioempresa` (
+    `id_usuarioempresa` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`id_empresa` INT NOT NULL,
+    `id_usuario` INT NOT NULL,
+    CONSTRAINT FOREIGN KEY(`id_empresa`) REFERENCES ff_empresas(`id_empresa`),
+    CONSTRAINT FOREIGN KEY(`id_usuario`) REFERENCES ff_usuarios(`id_usuario`)
+);
 CREATE TABLE IF NOT EXISTS `ff_productopedido` (
     `id_productopedido` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `id_producto` INT NOT NULL,

@@ -1,0 +1,29 @@
+{
+  "name": "fresfruit",
+  "version": "1.0.0",
+  "description": "Pulpas FresFruit, proyecto de pedidos de pulpas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/estefa9806/pulpasFresFruit.git"
+  },
+  "author": "Estefa B",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/estefa9806/pulpasFresFruit/issues"
+  },
+  "homepage": "https://github.com/estefa9806/pulpasFresFruit#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

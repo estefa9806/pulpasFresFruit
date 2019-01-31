@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
             res.json(rows);
         } else {
             console.log(err);
+            res.status(500).json(err);
         }
     });
 });
@@ -22,6 +23,7 @@ router.get('/:id', async (req, res) => {
             res.json(rows[0]);
         } else {
             console.log(err);
+            res.status(500).json(err);
         }
     });
 });
@@ -35,6 +37,7 @@ router.post('/', async (req, res) => {
             res.json({status: 'Order saved'});
         } else {
             console.log(err);
+            res.status(500).json(err);
         }
     });
 });
@@ -49,6 +52,7 @@ router.put('/:id', async (req, res) => {
             res.json({status: 'Order updated'});
         } else {
             console.log(err);
+            res.status(500).json(err);
         }
     });
 });
@@ -62,6 +66,7 @@ router.delete('/:id', async (req, res) => {
             res.json({status: 'Order deleted'});
         } else {
             console.log(err);
+            res.status(500).json(err);
         }
     });
 });

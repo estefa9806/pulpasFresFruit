@@ -3,8 +3,8 @@ const router = Router();
 const mysqlConnection = require('../database');
 
 // Get all
-router.get('/', async (req, res) => {
-    await mysqlConnection.query('SELECT * FROM ff_pedidos', (err, rows, fields) => {
+router.get('/', (req, res) => {
+    mysqlConnection.query('SELECT * FROM ff_pedidos', (err, rows, fields) => {
         if (!err) {
             res.json(rows);
         } else {
@@ -15,10 +15,10 @@ router.get('/', async (req, res) => {
 });
 
 // Get one
-router.get('/:id', async (req, res) => {
+router.get('/:id', (req, res) => {
     const { id } = req.params;
     
-    await mysqlConnection.query('SELECT * FROM ff_pedidos where id_pedido = ?', [id], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM ff_pedidos where id_pedido = ?', [id], (err, rows, fields) => {
         if (!err) {
             res.json(rows[0]);
         } else {
@@ -29,12 +29,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // Insert
-router.post('/', async (req, res) => {
-    const { observacion } = req.body;
+router.post('/', (req, res) => {
+    const { numero_factura, id_usuario, observacion_pedido, despachado, precio_total, fecha_estimada } = req.body;
+    const query = `INSERT INTO ff_pedidos SET('numero_factura','id_usuario',
+                  'observacion_pedido','despachado','precio_total','fecha_estimada')
+                  VALUES('?','?','?','?','?','?')`;
+    const values = [numero_factura, id_usuario, observacion_pedido, despachado, precio_total, fecha_estimada];                 
 
-    await mysqlConnection.query('INSERT INTO ff_pedidos SET() VALUES(?)', [observacion], (err, rows, fields) => {
+    mysqlConnection.query(query, values, (err, rows, fields) => {
         if (!err) {
-            res.json({status: 'Order saved'});
+            res.json({status: 'Order created'});
         } else {
             console.log(err);
             res.status(500).json(err);
@@ -43,11 +47,15 @@ router.post('/', async (req, res) => {
 });
 
 // Update
-router.put('/:id', async (req, res) => {
-    const { observacion } = req.body;
+router.put('/:id', (req, res) => {
+    const { numero_factura, id_usuario, observacion_pedido, despachado, precio_total, fecha_estimada } = req.body;
     const { id } = req.params;
+    const query = `UPDATE ff_pedidos SET numero_factura = '?', id_usuario = '?', 
+                observacion_pedido = '?', despachado = '?', precio_total = '?', 
+                fecha_estimada = '?' WHERE id_pedido = ?`;
+    const setvalues = [numero_factura, id_usuario, observacion_pedido, despachado, precio_total, fecha_estimada, id];                
     
-    await mysqlConnection.query('UPDATE ff_pedidos SET observacion = ? WHERE id_pedido = ?', [observacion, id], (err, rows, fields) => {
+    mysqlConnection.query(query, setvalues, (err, rows, fields) => {
         if (!err) {
             res.json({status: 'Order updated'});
         } else {
@@ -58,10 +66,10 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', (req, res) => {
     const { id } = req.params;
     
-    await mysqlConnection.query('DELETE FROM ff_pedidos WHERE id_pedido = ?', [id], (err, rows, fields) => {
+    mysqlConnection.query('DELETE FROM ff_pedidos WHERE id_pedido = ?', [id], (err, rows, fields) => {
         if (!err) {
             res.json({status: 'Order deleted'});
         } else {

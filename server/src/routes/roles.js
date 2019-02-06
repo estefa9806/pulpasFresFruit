@@ -4,7 +4,7 @@ const mysqlConnection = require('../database');
 
 // Get all
 router.get('/', (req, res) => {
-    mysqlConnection.query('SELECT * FROM ff_usuarios', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM ff_roles', (err, rows, fields) => {
         if (!err) {
             res.json(rows);
         } else {
@@ -17,14 +17,14 @@ router.get('/', (req, res) => {
 // Get one
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    const query = 'SELECT * FROM ff_usuarios where id_usuario = ?';
+    const query = 'SELECT * FROM ff_roles where id_rol = ?';
 
     mysqlConnection.query(query, [id], (err, rows, fields) => {
         if (!err) {
             if (rows.length > 0) {
                 res.json(rows[0]);
             } else {
-                res.status(404).json({ status: 'User not found' });
+                res.status(404).json({ status: 'Role not found' });
             }
         } else {
             console.log(err);
@@ -35,16 +35,13 @@ router.get('/:id', (req, res) => {
 
 // Insert
 router.post('/', (req, res) => {
-    const { id_empresa, id_rol, nombres, apellidos, email, password, direccion, celular } = req.body;
-    const query = `INSERT INTO ff_usuarios 
-    ('id_empresa', 'id_rol', 'nombres', 'apellidos', 
-    'email', 'password', 'direccion', 'celular') 
-    VALUES ('?', '?', '?', '?', '?', '?', '?', '?');`;
-    const values = [id_empresa, id_rol, nombres, apellidos, email, password, direccion, celular];
+    const { nombre_rol } = req.body;
+    const query = `INSERT INTO ff_roles ('nombre_rol') VALUES ('?');`;
+    const values = [nombre_rol];
 
     mysqlConnection.query(query, values, (err, rows, fields) => {
         if (!err) {
-            res.json({ status: 'User created' });
+            res.json({ status: 'Role created' });
         } else {
             console.log(err);
             res.status(500).json(err);
@@ -55,15 +52,13 @@ router.post('/', (req, res) => {
 // Update
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { id_empresa, id_rol, nombres, apellidos, email, password, direccion, celular } = req.body;
-    const query = `UPDATE ff_usuarios SET id_empresa = '?', id_rol = '?', 
-                  nombres = '?', apellidos = '?', email = '?', password = '?', 
-                  direccion = '?', celular = '?' WHERE id_usuario = ?`;
-    const setvalues = [id_empresa, id_rol, nombres, apellidos, email, password, direccion, celular, id];
+    const { nombre_rol } = req.body;
+    const query = `UPDATE ff_roles SET nombre_rol = '?' WHERE id_rol = ?`;
+    const setvalues = [nombre_rol, id];
 
     mysqlConnection.query(query, setvalues, (err, rows, fields) => {
         if (!err) {
-            res.json({ status: 'User updated' });
+            res.json({ status: 'Role updated' });
         } else {
             console.log(err);
             res.status(500).json(err);
@@ -75,9 +70,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
-    mysqlConnection.query('DELETE FROM ff_usuarios WHERE id_usuario = ?', [id], (err, rows, fields) => {
+    mysqlConnection.query('DELETE FROM ff_roles WHERE id_rol = ?', [id], (err, rows, fields) => {
         if (!err) {
-            res.json({ status: 'User deleted' });
+            res.json({ status: 'Role deleted' });
         } else {
             console.log(err);
             res.status(500).json(err);
